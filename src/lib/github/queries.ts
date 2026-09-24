@@ -23,7 +23,7 @@ export const VIEWER_OVERVIEW_QUERY = gql`
       }
       repositories(
         first: 100
-        ownerAffiliation: OWNER
+        ownerAffiliations: [OWNER]
         orderBy: { field: PUSHED_AT, direction: DESC }
       ) {
         nodes {
