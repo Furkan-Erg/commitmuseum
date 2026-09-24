@@ -39,6 +39,10 @@ pipeline {
         stage('Lint & typecheck') {
             steps {
                 sh 'npm run lint'
+                // Next.js 16 generates route-derived types (e.g. LayoutProps) via
+                // `next typegen` instead of `next dev`/`next build` — without it,
+                // tsc fails with "Cannot find name 'LayoutProps'" in CI.
+                sh 'npx next typegen'
                 sh 'npx tsc --noEmit'
             }
         }
