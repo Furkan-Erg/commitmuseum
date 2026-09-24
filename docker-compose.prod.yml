@@ -1,0 +1,17 @@
+# Production compose file for this VPS. Unlike docker-compose.yml (which
+# bundles its own nginx + certbot bound to 80/443 for a standalone
+# deployment), this VPS terminates TLS for every app with a single host
+# Nginx + certbot shared across all projects — see CLAUDE.md's infra notes.
+# This file therefore runs only the `app` service, bound to
+# 127.0.0.1:3003, matching the streamerdle/nerdeydim pattern.
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:3003:3000"
+    restart: unless-stopped
